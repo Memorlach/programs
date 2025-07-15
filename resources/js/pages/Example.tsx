@@ -1,6 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-
 export default function Example() {
     return (
         <div className="container">
@@ -10,7 +7,7 @@ export default function Example() {
                         <div className="card-header">
                             <p>Example Component</p>
                         </div>
-
+                        Este debe ser como un dashboard
                         <div className="card-body">
                             <p>I'm an example component! </p>
                         </div>
@@ -20,4 +17,3 @@ export default function Example() {
         </div>
     );
 }
-
