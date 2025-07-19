@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useRef, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {
     ColumnDef,
     getCoreRowModel,
@@ -7,11 +7,10 @@ import {
     getSortedRowModel,
     PaginationState,
     Row,
-    RowSelectionState,
     SortingState,
     useReactTable,
 } from '@tanstack/react-table';
-import {EllipsisVertical, Moon, Search, Settings2, SunMedium, X} from 'lucide-react';
+import { Moon, Settings2, SunMedium } from 'lucide-react';
 import { Link } from 'react-router';
 import { Button } from '@/components/ui/button';
 import {
@@ -20,7 +19,6 @@ import {
     CardHeader,
     CardHeading,
     CardTable,
-    CardTitle,
     CardToolbar,
 } from '@/components/ui/card';
 import { DataGrid, useDataGrid } from '@/components/ui/data-grid';
@@ -28,20 +26,13 @@ import { DataGridColumnHeader } from '@/components/ui/data-grid-column-header';
 import { DataGridColumnVisibility } from '@/components/ui/data-grid-column-visibility';
 import { DataGridPagination } from '@/components/ui/data-grid-pagination';
 import { DataGridTable } from '@/components/ui/data-grid-table';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Switch } from '@/components/ui/switch';
 import {Container} from "@/components/common/container";
 import {mtsClient} from "@/api/services/MtsClient";
 import {format} from "date-fns";
+import FilterMts from "@/pages/Programs/partials/FilterMts";
 
 interface MtsProps {
     title: string;
@@ -56,8 +47,7 @@ function ActionsCell({ row }: { row: Row<MtsInterface> }) {
 }
 
 const ListPrograms = ({ title }: MtsProps) => {
-    const [pagination, setPagination] =
-        useState<PaginationState>({
+    const [pagination, setPagination] = useState<PaginationState>({
             pageIndex: 0,
             pageSize: 50,
         });
@@ -66,17 +56,17 @@ const ListPrograms = ({ title }: MtsProps) => {
         { id: 'Clave', desc: true },
     ]);
 
-    const [programsActive, setProgramsActive] = useState<boolean>(true);
+    const [destinationQuery, setDestinationQuery] = useState('');
+    const [programsActiveQuery, setprogramsActiveQuery] = useState<boolean>(true);
     const [searchQuery, setSearchQuery] = useState('');
-    const [MtsData, setMtsData] = useState<MtsSearchInterface>({
+    const [MtsData, setMtsData] = useState<MtsDataTableInterface>({
         data: [],
         recordsTotal: 0
     });
 
-    useEffect(() => {
-        // Este efecto se ejecuta cuando cambian los filtros (programsActive o searchQuery) y resetea la paginación a la primera página
+    useEffect(() => { // Se regresa la paginación a 1 cuando se usan filtros
         setPagination(prev => ({ ...prev, pageIndex: 0 }));
-    }, [programsActive, searchQuery]);
+    }, [programsActiveQuery, searchQuery]);
 
     useEffect(() => {
         const loadMts = async () => {
@@ -85,17 +75,17 @@ const ListPrograms = ({ title }: MtsProps) => {
             const data = await mtsClient.listMts({
                 length : pagination.pageSize,
                 start: start,
-                active: programsActive,
+                active: programsActiveQuery,
                 keyword: searchQuery,
                 is_exa: false,
-                destination: ''
+                destination: destinationQuery
             });
 
             setMtsData(data);
         };
 
         loadMts();
-    }, [pagination.pageIndex, pagination.pageSize, programsActive, searchQuery]);
+    }, [pagination.pageIndex, programsActiveQuery, searchQuery, destinationQuery]);
 
     const columns = useMemo<ColumnDef<MtsInterface>[]>(
         () => [
@@ -228,8 +218,8 @@ const ListPrograms = ({ title }: MtsProps) => {
                         Programas activos
                     </Label>
                     <Switch size="sm" id="auto-update"
-                        checked={programsActive}
-                        onClick={() => setProgramsActive(!programsActive)}
+                        checked={programsActiveQuery}
+                        onClick={() => setprogramsActiveQuery(!programsActiveQuery)}
                     />
                 </div>
                 <DataGridColumnVisibility
@@ -260,28 +250,13 @@ const ListPrograms = ({ title }: MtsProps) => {
                 <Card>
                     <CardHeader>
                         <CardHeading>
-                            <div className="flex items-center gap-2.5">
-                                <CardTitle>{title}</CardTitle>
-                                <div className="relative">
-                                    <Search className="size-4 text-muted-foreground absolute start-3 top-1/2 -translate-y-1/2" />
-                                    <Input
-                                        placeholder="Buscar Programa ..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="ps-9 w-40"
-                                    />
-                                    {searchQuery.length > 0 && (
-                                        <Button
-                                            mode="icon"
-                                            variant="ghost"
-                                            className="absolute end-1.5 top-1/2 -translate-y-1/2 h-6 w-6"
-                                            onClick={() => setSearchQuery('')}
-                                        >
-                                            <X />
-                                        </Button>
-                                    )}
-                                </div>
-                            </div>
+                            <FilterMts
+                                title={title}
+                                destinationQuery={destinationQuery}
+                                searchQuery={searchQuery}
+                                onSearchChange={setSearchQuery}
+                                onDestinationChange={setDestinationQuery}
+                            ></FilterMts>
                         </CardHeading>
                         <Toolbar />
                     </CardHeader>

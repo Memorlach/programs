@@ -29,7 +29,7 @@ function DataGridPagination(props: DataGridPaginationProps) {
     sizesSkeleton: <Skeleton className="h-8 w-44" />,
     moreLimit: 5,
     more: false,
-    info: '{from} - {to} of {count}',
+    info: '{from} - {to} de {count}',
     infoSkeleton: <Skeleton className="h-8 w-60" />,
   };
 

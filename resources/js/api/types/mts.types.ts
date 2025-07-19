@@ -16,16 +16,21 @@ interface MtsInterface {
     }
 }
 
-interface MtsSearchInterface {
+interface MtsDataTableInterface {
     data: MtsInterface[],
     recordsTotal: number,
 }
 
-interface SearchMts {
+interface SearchMtsInterface {
     length: number,
     start: number,
     active: boolean,
     keyword: string,
     destination: string,
     is_exa: boolean,
+}
+
+interface DestinationInterface {
+    uid: string,
+    name: string
 }
