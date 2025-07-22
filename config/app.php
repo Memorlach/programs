@@ -126,6 +126,8 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'private_key' => md5( date( 'Y' ) ),
+
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver
@@ -168,6 +170,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\UniMegaAccount::class,
     ])->toArray(),
 
     /*

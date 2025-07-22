@@ -42,7 +42,14 @@
     </script>
 </head>
 <body class="text-foreground bg-background flex h-full text-base antialiased">
-<div class="flex grow" id="app"></div>
+<div class="flex grow" id="app">
+    @php
+        $user = request()->user();
+
+        dd($user);
+    @endphp
+
+</div>
 </body>
 </html>
 

@@ -12,6 +12,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const ACCOUNT_USER = 'user';
+
+    const ACCOUNT_CUSTOMER = 'customer';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -42,4 +46,40 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * role
+     *
+     * @access public
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_uid', 'uid');
+    }
+
+    /**
+     * department
+     *
+     * @access public
+     */
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'department_uid', 'uid');
+    }
+
+    /**
+     * department
+     *
+     * @access public
+     */
+    public function destination()
+    {
+        return $this->belongsTo(Destination::class, 'department_uid', 'uid');
+    }
+
+
+    public function actions()
+    {
+        return $this->belongsTo(Actions::class, 'department_uid', 'uid');
+    }
 }
