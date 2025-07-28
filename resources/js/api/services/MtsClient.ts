@@ -1,9 +1,9 @@
 import { createApiClient } from '@/api/factory/apiFactory';
 
-class MtsClient {
+export default class MtsClient {
     private client = createApiClient('mts');
 
-    listMts({ length = 10 , start = 0 , keyword, active, is_exa, destination }: SearchMtsInterface): Promise<MtsDataTableInterface> {
+    listMts({ length = 10, start = 0, keyword, active, is_exa, destination }: SearchMtsInterface): Promise<MtsDataTableInterface> {
         return this.client.get<MtsDataTableInterface>('api/search', {
             export: 'datatables',
             length: length,
@@ -19,5 +19,3 @@ class MtsClient {
         return await this.client.get<DestinationInterface[]>('api/destinations');
     }
 }
-
-export const mtsClient = new MtsClient();

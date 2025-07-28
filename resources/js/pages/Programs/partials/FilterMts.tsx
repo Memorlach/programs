@@ -30,26 +30,26 @@ const FilterMts = ({
                 <CardTitle>{title}</CardTitle>
             </div>
             <div className="">
-                <div className="flex items-center flex-wrap gap-2.5">
-                    <Label className="flex w-full max-w-56">Visibility</Label>
-                    <div className="grow">
-                        <Select
-                            defaultValue={destinationQuery}
-                            onValueChange={onDestinationChange}
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Destino"/>
-                            </SelectTrigger>
-                            <SelectContent>
-                                { destinations.map((destination) => (
-                                    <SelectItem value={destination.uid}>{destination.name}</SelectItem>
-                                )) }
-                            </SelectContent>
-                        </Select>
-                    </div>
+                <Label className="">Destino</Label>
+                <div className="">
+                    <Select
+                        defaultValue={destinationQuery}
+                        onValueChange={onDestinationChange}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="Destino"/>
+                        </SelectTrigger>
+                        <SelectContent>
+                            {
+                                destinations.map((destination) => (
+                                    <SelectItem value={destination.uid} key={destination.uid}>{destination.name}</SelectItem>
+                                ))
+                            }
+                        </SelectContent>
+                    </Select>
                 </div>
             </div>
-            <div className="grid grid-col-4">
+            <div className="">
                 <Search className="size-4 text-muted-foreground absolute start-3 top-1/2 -translate-y-1/2"/>
                 <Input
                     placeholder="Buscar Programa ..."

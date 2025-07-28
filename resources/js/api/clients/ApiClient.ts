@@ -1,10 +1,12 @@
 // api-client.ts
+
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS';
 
 interface ApiClientConfig {
     baseUrl?: string;
     defaultHeaders?: Record<string, string>;
     authToken?: string;
+    use_token_bloqueos?: boolean;
 }
 
 interface RequestOptions<TBody = unknown> {
@@ -19,6 +21,8 @@ export class ApiClient {
     private baseUrl: string;
     private defaultHeaders: Record<string, string>;
     private authToken: string | null;
+    private use_token_bloqueos: boolean | null;
+    private token_bloqueos: string | null = null;
 
     constructor(config: ApiClientConfig = {}) {
         this.baseUrl = config.baseUrl || '';
@@ -26,6 +30,11 @@ export class ApiClient {
             'Content-Type': 'application/json',
         };
         this.authToken = config.authToken || null;
+        this.use_token_bloqueos = config.use_token_bloqueos || false;
+    }
+
+    setTokenBloqueos(token: string | null): void {
+        this.token_bloqueos = token;
     }
 
     public setAuthToken(token: string): void {
@@ -57,8 +66,10 @@ export class ApiClient {
         // Preparar headers
         const requestHeaders: HeadersInit = { ...this.defaultHeaders, ...headers };
 
-        if (this.authToken) {
+        if (this.authToken && !this.use_token_bloqueos) {
             requestHeaders['Authorization'] = `Bearer ${this.authToken}`;
+        }else{
+            requestHeaders['Authorization'] = `Bearer ${this.token_bloqueos}`;
         }
 
         // Configurar el cuerpo de la solicitud

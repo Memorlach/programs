@@ -401,7 +401,7 @@ export const MENU_SIDEBAR: MenuConfig = [
       },
     ],
   },
-  { title: 'Store - Services', icon: Codepen, disabled: true },
+  { title: 'Store - services', icon: Codepen, disabled: true },
   { title: 'AI Promt', icon: Theater, disabled: true },
   { title: 'Invoice Generator', icon: ScrollText, disabled: true },
 ];*/

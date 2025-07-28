@@ -1,15 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <!-- ... -->
-
-</head>
-<body>
-<div id="app"></div>
-</body>
-</html>
-
-
 <!doctype html>
 <html class="h-full" lang="en" dir="ltr">
 <head>
@@ -41,15 +29,10 @@
         })();
     </script>
 </head>
-<body class="text-foreground bg-background flex h-full text-base antialiased">
-<div class="flex grow" id="app">
-    @php
-        $user = request()->user();
+<body class="text-foreground bg-background flex h-full text-base antialiased" >
 
-        dd($user);
-    @endphp
+<div class="flex grow" id="app" data-user="{{ \Illuminate\Support\Facades\Auth::user() }}"></div>
 
-</div>
 </body>
 </html>
 

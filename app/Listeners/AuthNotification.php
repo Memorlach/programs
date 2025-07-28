@@ -34,8 +34,8 @@ class AuthNotification
             $event->umo->user->email
         ));
 
-        \App\Jobs\UserAuthenticated
+        /*\App\Jobs\UserAuthenticated
             ::dispatch($event->umo)
-            ->onQueue('emails');
+            ->onQueue('emails');*/
     }
 }

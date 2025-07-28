@@ -1,3 +1,7 @@
+interface ApiType{
+
+}
+
 interface MtsInterface {
     clv: string,
     name: string,

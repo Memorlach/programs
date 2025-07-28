@@ -11,6 +11,14 @@ export default defineConfig({
         hmr: {
             host: 'localhost',
         },
+        watch: {
+            usePolling: true,
+            ignored: [
+                '**/storage/**',
+                '**/vendor/**',
+                '**/node_modules/**'
+            ]
+        }
     },
     plugins: [
         laravel({
@@ -28,6 +36,9 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
+    define: {
+        'process.env': process.env
+    },
     resolve: {
         alias: {
             '@': '/resources/js',

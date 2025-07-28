@@ -1,14 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
-import { mtsClient } from "@/api/services/MtsClient";
+import MtsClient from "@/api/services/MtsClient";
 
 export const useDestinations = () => {
+    const mtsClient = new MtsClient();
+
     const { data, isLoading, error } = useQuery({
         queryKey: ['destinations'],
-        queryFn: () => mtsClient.getDestinations(), // Asegúrate de llamar a la función
+        queryFn: () => mtsClient.getDestinations(),
     });
 
     return {
-        destinations: data || [], // Proporciona un valor por defecto
+        destinations: data || [],
         isLoading,
         error
     };

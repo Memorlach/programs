@@ -30,7 +30,7 @@ import { Label } from '@/components/ui/label';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Switch } from '@/components/ui/switch';
 import {Container} from "@/components/common/container";
-import {mtsClient} from "@/api/services/MtsClient";
+import MtsClient from "@/api/services/MtsClient";
 import {format} from "date-fns";
 import FilterMts from "@/pages/Programs/partials/FilterMts";
 
@@ -47,6 +47,7 @@ function ActionsCell({ row }: { row: Row<MtsInterface> }) {
 }
 
 const ListPrograms = ({ title }: MtsProps) => {
+    const mtsClient = new MtsClient();
     const [pagination, setPagination] = useState<PaginationState>({
             pageIndex: 0,
             pageSize: 50,
@@ -57,7 +58,7 @@ const ListPrograms = ({ title }: MtsProps) => {
     ]);
 
     const [destinationQuery, setDestinationQuery] = useState('');
-    const [programsActiveQuery, setprogramsActiveQuery] = useState<boolean>(true);
+    const [programsActiveQuery, setProgramsActiveQuery] = useState<boolean>(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [MtsData, setMtsData] = useState<MtsDataTableInterface>({
         data: [],
@@ -219,7 +220,7 @@ const ListPrograms = ({ title }: MtsProps) => {
                     </Label>
                     <Switch size="sm" id="auto-update"
                         checked={programsActiveQuery}
-                        onClick={() => setprogramsActiveQuery(!programsActiveQuery)}
+                        onClick={() => setProgramsActiveQuery(!programsActiveQuery)}
                     />
                 </div>
                 <DataGridColumnVisibility
