@@ -15,7 +15,11 @@ export default class MtsClient {
         });
     }
 
-     async getDestinations(): Promise<DestinationInterface[]>{
+    getProgram(clv_program: string): Promise<ProgramInterface> {
+        return this.client.get<ProgramInterface>('api/program', {clv_program: clv_program});
+    }
+
+    async getDestinations(): Promise<DestinationInterface[]>{
         return await this.client.get<DestinationInterface[]>('api/destinations');
     }
 }

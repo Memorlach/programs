@@ -18,11 +18,7 @@ class User
     {
         $response = $next($request);
 
-        if ($request->session()->has('sso')){
-            $user = $request->session()->has('user') ? $request->session()->get('user') : Auth::user();
-
-            $response->header('user', json_encode($user));
-        }else{
+        if (!$request->session()->has('sso')){
             return redirect()->away(env('SSO_LOGIN'));
         }
 

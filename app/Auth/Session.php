@@ -104,10 +104,9 @@ class Session
                 config('app.cipher')
             );
 
-            $encrypter->decrypt($this->token);
         }catch (\Exception $exception){
             throw new AuthEncryptionException(
-                "Autenticación de sesión inválida", 0, $e
+                "Autenticación de sesión inválida", 0
             );
         }
 

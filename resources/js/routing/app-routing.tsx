@@ -1,31 +1,27 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
 import { Layout } from "@/layout/layout";
 import Example from "@/pages/Example";
 import {ListPrograms} from "@/pages/Programs/ListPrograms";
+import {useAuth} from "@/context/auth-context";
+import React from "react";
+import {dashboardRoutes} from "@/routing/dashboard.routes";
+import {programsRoutes} from "@/routing/program.routes";
+
+export function ProtectedRoute ({modulo, action}:{modulo: string; action: string;}) {
+    const user = useAuth();
+    const access_module = user.getAccessModule(modulo);
+    const access_action = user.getAccessAction(action);
+
+    if(access_module !== undefined && access_action !== undefined){
+        return <Layout />;
+    }else{
+        return <Navigate to="/unauthorized" replace />
+    }
+}
 
 const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <Layout />,
-        //errorElement: <NotFound />,
-        children: [
-            {
-                index: true,
-                element: <Example />,
-            },
-        ],
-    },
-    {
-        path: '/programs',
-        element: <Layout />,
-        //errorElement: <NotFound />,
-        children: [
-            {
-                index: true,
-                element: <ListPrograms title="Listado de programas" />,
-            },
-        ],
-    },
+    ...dashboardRoutes.routes,
+    ...programsRoutes.routes,
 ]);
 
 export function AppRouting() {

@@ -38,3 +38,7 @@ interface DestinationInterface {
     uid: string,
     name: string
 }
+
+interface ProgramInterface{
+
+}

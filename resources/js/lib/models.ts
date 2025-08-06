@@ -18,13 +18,26 @@ export interface UserModel{
             description: string
     },
     role: {
-    uid: string,
+        uid: string,
         name: string,
         description: string,
         access_level: number
+        modules: [
+            RoleModule
+        ]
     },
-    actions: [
-        any
-    ],
     token: string
+}
+
+export interface RoleModule{
+    name: string,
+    route: string
+    actions: [
+        ModuleActions
+    ]
+}
+
+export interface ModuleActions{
+    action: string,
+    description: string,
 }
