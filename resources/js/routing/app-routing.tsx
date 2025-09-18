@@ -6,6 +6,7 @@ import {useAuth} from "@/context/auth-context";
 import React from "react";
 import {dashboardRoutes} from "@/routing/dashboard.routes";
 import {programsRoutes} from "@/routing/program.routes";
+import {operatorsRoutes} from "@/routing/operator.routes";
 
 export function ProtectedRoute ({modulo, action}:{modulo: string; action: string;}) {
     const user = useAuth();
@@ -22,6 +23,7 @@ export function ProtectedRoute ({modulo, action}:{modulo: string; action: string
 const router = createBrowserRouter([
     ...dashboardRoutes.routes,
     ...programsRoutes.routes,
+    ...operatorsRoutes.routes,
 ]);
 
 export function AppRouting() {

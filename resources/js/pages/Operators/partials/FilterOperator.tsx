@@ -5,42 +5,30 @@ import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {useDestinations} from "@/hooks/global-data";
 import {Switch} from "@/components/ui/switch";
-import {SetStateAction, useState} from "react";
 
 interface FiltersProps {
     title: string;
-    searchQuery: string;
+    inputValue: string;
+    onInputChange: (value: string) => void;
+    onSearchClick: () => void;
     destinationQuery: string;
-    onSearchChange: (value: string) => void;
     onDestinationChange?: (value: string) => void;
-    programsActive: boolean,
-    onProgramsActiveChange: (value: boolean) => void,
-    programsExa: boolean,
-    onProgramsExaActiveChange: (value: boolean) => void,
+    operatorActive: boolean;
+    onOperatorActiveChange: (value: boolean) => void;
 }
 
-const FilterMts = ({
-                       title,
-                       searchQuery,
-                       onSearchChange,
-                       onDestinationChange,
-                       destinationQuery,
-                       programsActive,
-                       onProgramsActiveChange,
-                       programsExa,
-                       onProgramsExaActiveChange
+const FilterOperator = ({
+                            title,
+                            inputValue,
+                            onInputChange,
+                            onSearchClick,
+                            destinationQuery,
+                            onDestinationChange,
+                            operatorActive,
+                            onOperatorActiveChange,
                    }: FiltersProps) => {
 
     const {destinations} = useDestinations();
-    const [inputValue, setInputValue] = useState(searchQuery);
-
-    const handleInputChange = (e: { target: { value: SetStateAction<string>; }; }) => {
-        setInputValue(e.target.value);
-    };
-
-    const handleButtonClick = () => {
-        onSearchChange(inputValue);
-    };
 
     return (
         <div className="w-full py-3">
@@ -49,30 +37,35 @@ const FilterMts = ({
                     <CardTitle>{title}</CardTitle>
                 </div>
             </div>
-            <div className="flex flex-col sm:flex-row gap-3">
-                <div className="sm:w-1/3 w-full">
+            <div className="flex gap-3">
+                <div className="w-1/3">
                     <Label>Buscar</Label>
                     <div className="flex">
                         <Input
-                            placeholder="Buscar Programa ..."
+                            placeholder="Buscar Operador ..."
                             value={inputValue}
-                            className="rounded-r-none"
-                            onChange={handleInputChange}
+                            onChange={(e) => onInputChange(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && onSearchClick()}
                         />
-                        <Button className='rounded-l-none' onClick={handleButtonClick}>Buscar</Button>
+                        <Button
+                            className="rounded-l-none"
+                            onClick={onSearchClick}
+                        > Buscar
+                        </Button>
                     </div>
                 </div>
-                <div className="sm:w-1/3 w-full">
+                <div className="w-1/3">
                     <Label className="">Destino</Label>
                     <div className="">
                         <Select
-                            defaultValue={destinationQuery}
+                            value={destinationQuery}
                             onValueChange={onDestinationChange}
                         >
                             <SelectTrigger>
                                 <SelectValue placeholder="Destino"/>
                             </SelectTrigger>
                             <SelectContent>
+                                <SelectItem value=" ">Todos los destinos</SelectItem>
                                 {
                                     destinations.map((destination) => (
                                         <SelectItem value={destination.uid}
@@ -83,35 +76,24 @@ const FilterMts = ({
                         </Select>
                     </div>
                 </div>
-                <div className="sm:w-1/3 w-full">
+                <div className="w-1/3">
                     <div>
                         <Label htmlFor="auto-update" className="text-sm">
-                            Programas activos
+                            Operadores activos
                         </Label>
                     </div>
                     <div>
                         <Switch size="sm" id="auto-update"
-                            checked={programsActive}
-                            onClick={() => onProgramsActiveChange(!programsActive)}
+                            checked={operatorActive}
+                            onClick={() => onOperatorActiveChange(!operatorActive)}
                         />
                     </div>
                 </div>
-                <div className="sm:w-1/3 w-full">
-                    <div>
-                        <Label htmlFor="auto-update" className="text-sm">
-                            Exa Travel
-                        </Label>
-                    </div>
-                    <div>
-                        <Switch size="sm" id="auto-update"
-                            checked={programsExa}
-                            onClick={() => onProgramsExaActiveChange(!programsExa)}
-                        />
-                    </div>
-                </div>
+
             </div>
         </div>
     );
 }
 
-export default FilterMts;
+export default FilterOperator;
+

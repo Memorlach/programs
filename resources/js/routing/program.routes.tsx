@@ -13,7 +13,6 @@ export const programsRoutes: AppRouteGroup = {
                     index: true,
                     element: <ListPrograms title="Listado de programas" />
                 }, {
-                    index: true,
                     path: ':clv_program/edit',
                     element: <EditProgram title="Editar Programa" />
                 }
