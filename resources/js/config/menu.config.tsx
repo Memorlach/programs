@@ -54,6 +54,7 @@ import {
   Briefcase as WorkIcon,
   Zap,
   PlaneTakeoff,
+  UserCog,
 } from 'lucide-react';
 import { type MenuConfig } from './types';
 
@@ -65,6 +66,16 @@ export const MENU_SIDEBAR: MenuConfig = [
       { title: 'Lista de programas', path: '/programs' },
     ],
   },
+  {
+    title: 'Operadores',
+    icon: UserCog,
+    children: [
+      {
+        title: 'Lista de operadores',
+        path: '/operators',
+      }
+    ]
+  }
 ];
 
 /*export const MENU_SIDEBAR: MenuConfig = [

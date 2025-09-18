@@ -63,7 +63,7 @@ function ActionsCell({ row }: { row: Row<MtsInterface> }) {
                             <Link className="flex" to={'visibilidad'}><ChartColumn className="me-1" /> Reporte de ventas</Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                            <Link className="flex" to={'programs/' + row.original.clv + '/edit'} target="_blank"><Pencil className="me-1" /> Editar</Link>
+                            <Link className="flex" to={'/programs/' + row.original.clv + '/edit'} target="_blank"><Pencil className="me-1" /> Editar</Link>
                         </DropdownMenuItem> </>) : ''
                 }
             </DropdownMenuContent>
